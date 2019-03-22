@@ -1,40 +1,63 @@
-import { autoinject} from 'aurelia-dependency-injection';
+import { HttpClient, json } from "aurelia-fetch-client";
+import { Lazy, inject } from "aurelia-framework";
 import {
-  ValidationControllerFactory,ValidationController,
-  ValidationRules, validationMessages,
+  ValidationControllerFactory,
+  ValidationController,
+  ValidationRules,
+  validationMessages
 } from "aurelia-validation";
 
-@autoinject
+@inject(Lazy.of(HttpClient), ValidationControllerFactory)
 export class Register {
   public registrationModel = {
-    firstName: '',
-    lastName: '',
-    email: '',
+    firstName: "",
+    lastName: "",
+    email: ""
   };
 
   public controller: ValidationController;
+  public http;
+  public registeredUsers;
 
-  constructor(controllerFactory: ValidationControllerFactory){
+  constructor(
+    private getHttpClient: () => HttpClient,
+    controllerFactory: ValidationControllerFactory
+  ) {
+    this.getHttpClient = getHttpClient;
     this.controller = controllerFactory.createForCurrentScope();
 
-    ValidationRules
-      .ensure('firstName')
-        .required()
-        .withMessage("You must enter your name!")
-      .ensure('lastName')
-        .required()
-        .withMessage("You must enter your surname!")
-      .ensure('email')
-        .required()
-        .email()
-        .on(this.registrationModel)
+    validationMessages["required"] = `You must enter your \${$displayName}`;
 
-        this.controller.validate()
+    ValidationRules.ensure("firstName")
+      .displayName("First Name")
+      .required()
 
+      .ensure("lastName")
+      .displayName("Last Name")
+      .required()
+
+      .ensure("email")
+      .displayName("Email")
+      .email()
+      .required()
+      .on(this.registrationModel);
+
+    this.controller.validate();
   }
 
-  public register(){
-    console.log(this.registrationModel)
+  attached(){
+    this.http = this.getHttpClient();
+    this.http.configure(config => {
+      config
+      .useStandardConfiguration()
+      .withBaseUrl("http://10.5.10.69/aurelia/api/")
+    })
   }
 
+  public register() {
+    this.http.fetch("form", {method: 'post', body: json(this.registrationModel)})
+    .then(response => response.json())
+    .then(data => {this.registeredUsers = data})
+    console.log(this.registrationModel);
+  }
 }

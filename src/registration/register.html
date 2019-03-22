@@ -1,12 +1,11 @@
 <template>
   <section class="au-animate">
     <h2>Registration</h2>
-    <form role="form" submit.delegate="register()">
+    <form submit.delegate="register()">
       <div class="form-group">
         <label for="fn">First Name</label>
         <input
           type="text"
-          value.bind="firstName"
           class="form-control"
           id="fn"
           placeholder="first name"
@@ -18,7 +17,6 @@
         <label for="ln">Last Name</label>
         <input
           type="text"
-          value.bind="lastName"
           class="form-control"
           id="ln"
           placeholder="last name"
@@ -30,7 +28,6 @@
         <label for="ln">E-mail</label>
         <input
           type="text"
-          value.bind="email"
           class="form-control"
           id="ln"
           placeholder="e-mail"
@@ -38,13 +35,19 @@
         />
       </div>
 
-<ul if.bind="controller.errors.length > 0">
-  <li repeat.for="error of controller.errors">
-    ${error.message}
-  </li>
-</ul>
+      <ul if.bind="controller.errors.length > 0">
+        <li repeat.for="error of controller.errors">
+          ${error.message}
+        </li>
+      </ul>
 
-      <button type="submit" class="btn btn-primary" disabled.bind="bla">Submit</button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        disabled.bind="isFormInvalid"
+      >
+        Submit
+      </button>
     </form>
   </section>
 </template>
