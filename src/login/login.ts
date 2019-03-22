@@ -2,8 +2,9 @@ import { autoinject } from "aurelia-dependency-injection";
 import {
   ValidationControllerFactory,
   ValidationController,
-  ValidationRules,
+  ValidationRules, validationMessages,
 } from "aurelia-validation";
+
 
 @autoinject
 export class Login {
@@ -28,6 +29,8 @@ export class Login {
       .ensure('agree')
         .satisfies(checked => checked === true)
       .on(this.formModel);
+
+      this.controller.validate()
   }
 
   public onLogin() {

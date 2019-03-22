@@ -11,9 +11,16 @@ export class App {
       {
         route: ["", "login"],
         name: "login",
-        moduleId: PLATFORM.moduleName("./login"),
+        moduleId: PLATFORM.moduleName("./login/login"),
         nav: true,
         title: "Login"
+      },
+      {
+        route: ["register"],
+        name: "register",
+        moduleId: PLATFORM.moduleName("./registration/register"),
+        nav: true,
+        title: "Register"
       }
     ]);
 
