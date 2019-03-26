@@ -50,12 +50,12 @@ export class Register {
     this.http.configure(config => {
       config
       .useStandardConfiguration()
-      .withBaseUrl("http://10.5.10.69/aurelia/api/")
+      .withBaseUrl("http://10.5.10.69/primer/api/")
     })
   }
 
   public register() {
-    this.http.fetch("form", {method: 'post', body: json(this.registrationModel)})
+    this.http.fetch("users", {method: 'post', body: json(this.registrationModel)})
     .then(response => response.json())
     .then(data => {this.registeredUsers = data})
     console.log(this.registrationModel);

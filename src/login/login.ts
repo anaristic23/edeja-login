@@ -44,7 +44,7 @@ export class Login {
     this.http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl("https://jsonplaceholder.typicode.com/");
+        .withBaseUrl("http://10.5.10.69/primer/api/");
     });
   }
 
