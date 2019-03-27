@@ -9,9 +9,14 @@ import {
 @inject(Lazy.of(HttpClient), ValidationControllerFactory)
 export class Login {
   public formModel: object = {
-    email: "",
-    password: "",
-    agree: false
+
+    agree: false,
+    grant_type:"password",
+    username:"",
+    password:"",
+    client_id: "edeja",
+    client_secret: "edeja123",
+    scope:"api1"
   };
 
   public controller: ValidationController;
@@ -44,13 +49,19 @@ export class Login {
     this.http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl("http://10.5.10.69/primer/api/");
+        .withBaseUrl("http://10.5.10.69/security/.well-known/openid-configuration");
     });
   }
 
   public onLogin() {
+    var response = {
+      access_token: 1564564654,
+      test2: 2
+    }
+    window.localStorage.setItem("response", JSON.stringify(response))
+    console.log(localStorage.getItem("response"))
     this.http
-      .fetch("users", {
+      .fetch("", {
         method: "post",
         body: json(this.formModel)
       })
