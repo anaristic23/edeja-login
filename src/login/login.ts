@@ -1,3 +1,4 @@
+import { Router } from "aurelia-router";
 import { Lazy, inject } from "aurelia-framework";
 import { HttpClient, json } from "aurelia-fetch-client";
 import {
@@ -6,29 +7,30 @@ import {
   ValidationRules
 } from "aurelia-validation";
 
-@inject(Lazy.of(HttpClient), ValidationControllerFactory)
+@inject(Lazy.of(HttpClient), ValidationControllerFactory, Router)
 export class Login {
   public formModel: object = {
-
-    agree: false,
-    grant_type:"password",
-    username:"",
-    password:"",
+    grant_type: "password",
+    username: "",
+    password: "",
     client_id: "edeja",
     client_secret: "edeja123",
-    scope:"api1"
+    scope: "api1"
   };
 
+  public agree: false;
   public controller: ValidationController;
   public http;
   public users;
 
   constructor(
     private getHttpClient: () => HttpClient,
-    controllerFactory: ValidationControllerFactory
+    controllerFactory: ValidationControllerFactory,
+    private router
   ) {
     this.getHttpClient = getHttpClient;
     this.controller = controllerFactory.createForCurrentScope();
+    this.router = Router;
 
     ValidationRules.ensure("email")
       .required()
@@ -49,27 +51,35 @@ export class Login {
     this.http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl("http://10.5.10.69/security/.well-known/openid-configuration");
+        .withBaseUrl("http://10.5.10.69/security/connect/token");
     });
   }
 
   public onLogin() {
-    var response = {
-      access_token: 1564564654,
-      test2: 2
-    }
-    window.localStorage.setItem("response", JSON.stringify(response))
-    console.log(localStorage.getItem("response"))
     this.http
       .fetch("", {
         method: "post",
-        body: json(this.formModel)
+        body: this.formDataTransform(this.formModel),
+
+        headers: {
+          "Content-Type": " application/x-www-form-urlencoded"
+        }
       })
-      .then(response => {console.log(response.json())})
+      .then(response => response.json())
       .then(response => {
         this.users = response;
-        console.log(response)
+        localStorage.setItem("response", JSON.stringify(response));
+        this.router.navigateToRoute("../userlist/userlist")
       });
-    console.log(this.formModel);
+  }
+
+  formDataTransform(obj) {
+    var str: any = [];
+    for (var p in obj) {
+      if (obj.hasOwnProperty(p)) {
+        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      }
+    }
+    return str.join("&");
   }
 }

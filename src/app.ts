@@ -21,6 +21,13 @@ export class App {
         moduleId: PLATFORM.moduleName("./registration/register"),
         nav: true,
         title: "Register"
+      },
+      {
+        route: ["userlist"],
+        name: "userlist",
+        moduleId: PLATFORM.moduleName("./userlist/userlist"),
+        nav: true,
+        title: "User List"
       }
     ]);
 
