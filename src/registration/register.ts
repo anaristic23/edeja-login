@@ -1,5 +1,5 @@
-import { HttpClient, json } from "aurelia-fetch-client";
-import { Lazy, inject } from "aurelia-framework";
+import { inject } from "aurelia-framework";
+import { HttpService } from "../services/httpservice";
 import {
   ValidationControllerFactory,
   ValidationController,
@@ -7,7 +7,7 @@ import {
   validationMessages
 } from "aurelia-validation";
 
-@inject(Lazy.of(HttpClient), ValidationControllerFactory)
+@inject(ValidationControllerFactory, HttpService)
 export class Register {
   public registrationModel = {
     firstName: "",
@@ -16,14 +16,11 @@ export class Register {
   };
 
   public controller: ValidationController;
-  public http;
+  public http: HttpService;
   public registeredUsers;
 
-  constructor(
-    private getHttpClient: () => HttpClient,
-    controllerFactory: ValidationControllerFactory
-  ) {
-    this.getHttpClient = getHttpClient;
+  constructor(controllerFactory: ValidationControllerFactory, http: HttpService) {
+    this.http = http;
     this.controller = controllerFactory.createForCurrentScope();
 
     validationMessages["required"] = `You must enter your \${$displayName}`;
@@ -45,19 +42,16 @@ export class Register {
     this.controller.validate();
   }
 
-  attached(){
-    this.http = this.getHttpClient();
-    this.http.configure(config => {
-      config
-      .useStandardConfiguration()
-      .withBaseUrl("http://10.5.10.69/primer/api/")
-    })
+  attached() {
+    this.register();
   }
 
   public register() {
-    this.http.fetch("users", {method: 'post', body: json(this.registrationModel)})
-    .then(response => response.json())
-    .then(data => {this.registeredUsers = data})
-    console.log(this.registrationModel);
+    this.http
+      .create("primer/api/users", this.registrationModel)
+      .then(data => {
+        this.registeredUsers = data;
+      });
+    console.log(this.registeredUsers);
   }
 }

@@ -26,11 +26,10 @@ export class Login {
   constructor(
     private getHttpClient: () => HttpClient,
     controllerFactory: ValidationControllerFactory,
-    private router
+    private router: Router
   ) {
     this.getHttpClient = getHttpClient;
     this.controller = controllerFactory.createForCurrentScope();
-    this.router = Router;
 
     ValidationRules.ensure("email")
       .required()
@@ -51,13 +50,13 @@ export class Login {
     this.http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl("http://10.5.10.69/security/connect/token");
+        .withBaseUrl("http://10.5.10.69/");
     });
   }
 
   public onLogin() {
     this.http
-      .fetch("", {
+      .fetch("security/connect/token", {
         method: "post",
         body: this.formDataTransform(this.formModel),
 
@@ -69,7 +68,7 @@ export class Login {
       .then(response => {
         this.users = response;
         localStorage.setItem("response", JSON.stringify(response));
-        this.router.navigateToRoute("../userlist/userlist")
+        this.router.navigateToRoute("userlist")
       });
   }
 

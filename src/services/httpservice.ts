@@ -1,16 +1,14 @@
-import { HttpClient, json } from "aurelia-fetch-client";
+import { HttpClient, json} from "aurelia-fetch-client";
 import { Lazy, inject } from "aurelia-framework";
 
 @inject(Lazy.of(HttpClient))
 export class HttpService {
-
-  public users;
   http: HttpClient;
   access_token: string;
 
   constructor(public getHttpClient: () => HttpClient, http) {
-    this.getHttpClient = getHttpClient;
     this.http = http;
+    this.getHttpClient = getHttpClient;
     var test = window.localStorage.getItem("response");
     var testObject = JSON.parse(test);
     if (testObject && testObject.access_token)
@@ -24,20 +22,24 @@ export class HttpService {
   }
 
   public get(url) {
-    this.http
+    return this.http
       .fetch(url, {
         headers: new Headers({
           "Authorization": "Bearer " + this.access_token
         })
       })
-      .then(response => response.json())
-      .then(data => {
-        let users = data.map((data)=>{
-          return (data.firstName + " " + data.lastName)
+      .then(response =>  response.json())
+  }
+
+  public create(url, model) {
+    return this.http
+      .fetch(url, {
+        method: 'post', 
+        body: json(model),
+        headers: new Headers({
+          "Authorization": "Bearer " + this.access_token
         })
-        console.log("users:  " + users);
-        
-        return users
-      });
+      })
+      .then(response =>  response.json())
   }
 }
