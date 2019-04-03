@@ -20,7 +20,6 @@ export class Users {
         this.users = data.map((data)=>{
         return (data)
       })
-      
       return this.users
     });
   }

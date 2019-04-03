@@ -28,6 +28,13 @@ export class App {
         moduleId: PLATFORM.moduleName("./userlist/userlist"),
         nav: false,
         title: "User List"
+      },
+      {
+        route: ["profile/:id"],
+        name: "profile",
+        moduleId: PLATFORM.moduleName("./profile/profile"),
+        nav: false,
+        title: "Profile Page"
       }
     ]);
 

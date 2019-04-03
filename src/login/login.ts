@@ -18,6 +18,7 @@ export class Login {
     scope: "api1"
   };
 
+  public isLoginValid: boolean;
   public agree: false;
   public controller: ValidationController;
   public http;
@@ -48,9 +49,7 @@ export class Login {
     this.http = this.getHttpClient();
 
     this.http.configure(config => {
-      config
-        .useStandardConfiguration()
-        .withBaseUrl("http://10.5.10.69/");
+      config.useStandardConfiguration().withBaseUrl("http://10.5.10.69/");
     });
   }
 
@@ -68,7 +67,7 @@ export class Login {
       .then(response => {
         this.users = response;
         localStorage.setItem("response", JSON.stringify(response));
-        this.router.navigateToRoute("userlist")
+        this.router.navigateToRoute("userlist");
       });
   }
 
@@ -80,5 +79,13 @@ export class Login {
       }
     }
     return str.join("&");
+  }
+
+  pressedLoginButton() {
+    this.controller.validate().then(result => {
+      if (result.valid) {
+        this.onLogin();
+      }
+    });
   }
 }
