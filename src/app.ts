@@ -26,7 +26,7 @@ export class App {
         route: ["userlist"],
         name: "userlist",
         moduleId: PLATFORM.moduleName("./userlist/userlist"),
-        nav: true,
+        nav: false,
         title: "User List"
       }
     ]);

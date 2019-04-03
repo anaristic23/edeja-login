@@ -42,4 +42,9 @@ export class HttpService {
       })
       .then(response =>  response.json())
   }
+  public delete(url, id){
+    return this.http.fetch(url + '/' + id, {
+      method: 'delete',
+    }).then(response => response.json())
+  }
 }
