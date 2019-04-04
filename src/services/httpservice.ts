@@ -9,10 +9,6 @@ export class HttpService {
   constructor(public getHttpClient: () => HttpClient, http) {
     this.http = http;
     this.getHttpClient = getHttpClient;
-    // var test = window.localStorage.getItem("response");
-    // var testObject = JSON.parse(test);
-    // if (testObject && testObject.access_token)
-    //   this.access_token = testObject.access_token;
     this.http = this.getHttpClient();
     this.http.configure(config => {
       config.useStandardConfiguration().withBaseUrl("http://10.5.10.69/");
@@ -65,6 +61,24 @@ export class HttpService {
       })
       .then(response => response.json());
   }
+
+  public update(url, model, id){
+    var test = window.localStorage.getItem("response");
+    var testObject = JSON.parse(test);
+    var access_token = '';
+    if (testObject && testObject.access_token)
+      access_token = testObject.access_token;
+
+      return this.http.fetch(url + "/" + id, {
+        method: "put",
+        body: json(model),
+        headers: new Headers({
+          Authorization: "Bearer " + access_token
+      })
+    })
+    .then(response => response.json());
+  }
+
   public delete(url, id) {
     return this.http
       .fetch(url + "/" + id, {
