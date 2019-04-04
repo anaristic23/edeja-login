@@ -18,7 +18,6 @@ export class Register {
 
   public controller: ValidationController;
   public http: HttpService;
-  public registeredUsers;
 
   public isFormInvalid:boolean;
 
@@ -49,11 +48,9 @@ export class Register {
   public register() {
     this.http
       .create("primer/api/users", this.registrationModel)
-      .then(data => {
-        this.registeredUsers = data;
+      .then(data => data)
         this.router.navigateToRoute("profile")
-      });
-    console.log(this.registeredUsers);
+      
   }
 
   pressedSubmitButton() {

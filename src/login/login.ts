@@ -22,7 +22,6 @@ export class Login {
   public agree: false;
   public controller: ValidationController;
   public http;
-  public users;
 
   constructor(
     private getHttpClient: () => HttpClient,
@@ -64,8 +63,7 @@ export class Login {
         }
       })
       .then(response => response.json())
-      .then(response => {
-        this.users = response;
+      .then(response => {response;
         localStorage.setItem("response", JSON.stringify(response));
         this.router.navigateToRoute("userlist");
       });

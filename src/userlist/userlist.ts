@@ -20,7 +20,7 @@ export class Users {
         this.users = data.map((data)=>{
         return (data)
       })
-      return this.users
+      return this.users.sort((currentUser, nextUser) => nextUser.id - currentUser.id)
     });
   }
 }

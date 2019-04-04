@@ -7,6 +7,8 @@ export class App {
 
   configureRouter(config: RouterConfiguration, router: Router) {
     config.title = "Edeja";
+    config.options.pushState = true;
+
     config.map([
       {
         route: ["", "login"],

@@ -8,13 +8,6 @@ export class UserProfile {
   id: string;
   user;
 
-  // profile:object = {
-  //   firstName: "",
-  //   lastName: "",
-  //   email: "",
-  //   id: ""
-  // }
-
   constructor(http: HttpService){
     this.http=http;
   }
@@ -29,15 +22,6 @@ export class UserProfile {
 
   public getProfile(){
     this.http.getById("primer/api/users", this.id)
-    .then(data => {
-      console.log(data)
-      this.user = data
-      return data
-    })
-    return this.user
+    .then(user => this.user = user)
   }
-
-
-
-
 }
