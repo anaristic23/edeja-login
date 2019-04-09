@@ -48,8 +48,11 @@ export class Register {
   public register() {
     this.http
       .create("primer/api/users", this.registrationModel)
-      .then(data => data)
-        this.router.navigateToRoute("profile")
+      .then((data) => {
+        // this.router.navigateToRoute("profile", {id: data.id});
+        this.router.navigateToRoute("userlist")
+      })
+
       
   }
 

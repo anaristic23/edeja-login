@@ -1,6 +1,6 @@
 import { Router } from "aurelia-router";
 import { Lazy, inject } from "aurelia-framework";
-import { HttpClient, json } from "aurelia-fetch-client";
+import { HttpClient } from "aurelia-fetch-client";
 import {
   ValidationControllerFactory,
   ValidationController,
@@ -63,7 +63,8 @@ export class Login {
         }
       })
       .then(response => response.json())
-      .then(response => {response;
+      .then(response => {
+        response;
         localStorage.setItem("response", JSON.stringify(response));
         this.router.navigateToRoute("userlist");
       });

@@ -7,6 +7,8 @@ export class App {
 
   configureRouter(config: RouterConfiguration, router: Router) {
     config.title = "Edeja";
+    config.options.pushState = true;
+
     config.map([
       {
         route: ["", "welcome"],
@@ -35,7 +37,15 @@ export class App {
         moduleId: PLATFORM.moduleName("./userlist/userlist"),
         nav: false,
         title: "User List"
+      },
+      {
+        route: ["profile/:id"],
+        name: "profile",
+        moduleId: PLATFORM.moduleName("./profile/profile"),
+        nav: false,
+        title: "Profile Page"
       }
+
     ]);
 
     this.router = router;

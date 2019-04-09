@@ -4,6 +4,8 @@ import environment from "./environment";
 import { PLATFORM } from "aurelia-pal";
 import * as Bluebird from "bluebird";
 
+import "jquery/dist/jquery"
+import "bootstrap/dist/js/bootstrap"
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
 
