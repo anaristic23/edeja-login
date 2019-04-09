@@ -1,11 +1,12 @@
+
 <template >
-  <section class="au-animate">
-    <h2>List of users</h2>
-    <ul class="list-group list-group-flush">
-        <li class="list-group-item" repeat.for="user of users">
-            <p>${user.firstName} ${user.lastName}</p>
-            <p>${user.email}</p>
-        </li>
-        </ul>
-  </section>
-</template>
+    <section class="au-animate">
+      <h2>List of users</h2>
+      <ul class="list-group list-group-flush">
+          <li class="list-group-item" repeat.for="user of users">
+              <a href.bind="'/profile/' + user.id"><p>${user.firstName} ${user.lastName}</p></a>
+              <p>${user.email}</p>
+          </li>
+          </ul>
+    </section>
+  </template>

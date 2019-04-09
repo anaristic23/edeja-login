@@ -9,7 +9,14 @@ export class App {
     config.title = "Edeja";
     config.map([
       {
-        route: ["", "login"],
+        route: ["", "welcome"],
+        name: "welcome",
+        moduleId: PLATFORM.moduleName("./welcome/welcome"),
+        nav: false,
+        title: "Welcome"
+      },
+      {
+        route: ["login"],
         name: "login",
         moduleId: PLATFORM.moduleName("./login/login"),
         nav: true,

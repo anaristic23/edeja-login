@@ -1,4 +1,5 @@
 import { inject } from "aurelia-framework";
+import { Router } from "aurelia-router";
 import { HttpService } from "../services/httpservice";
 import {
   ValidationControllerFactory,
@@ -7,7 +8,7 @@ import {
   validationMessages
 } from "aurelia-validation";
 
-@inject(ValidationControllerFactory, HttpService)
+@inject(ValidationControllerFactory, HttpService, Router)
 export class Register {
   public registrationModel = {
     firstName: "",
@@ -17,9 +18,10 @@ export class Register {
 
   public controller: ValidationController;
   public http: HttpService;
-  public registeredUsers;
 
-  constructor(controllerFactory: ValidationControllerFactory, http: HttpService) {
+  public isFormInvalid:boolean;
+
+  constructor(controllerFactory: ValidationControllerFactory, http: HttpService, private router: Router) {
     this.http = http;
     this.controller = controllerFactory.createForCurrentScope();
 
@@ -39,19 +41,24 @@ export class Register {
       .required()
       .on(this.registrationModel);
 
-    this.controller.validate();
-  }
-
-  attached() {
-    this.register();
-  }
+      
+      this.controller.validate();
+    }
 
   public register() {
     this.http
       .create("primer/api/users", this.registrationModel)
-      .then(data => {
-        this.registeredUsers = data;
-      });
-    console.log(this.registeredUsers);
+      .then(data => data)
+        this.router.navigateToRoute("profile")
+      
+  }
+
+  pressedSubmitButton() {
+    this.controller.validate().then((result) => { 
+
+      if (result.valid) {
+        this.register();
+      }
+    })
   }
 }

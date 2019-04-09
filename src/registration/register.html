@@ -1,53 +1,52 @@
 <template>
-  <section class="au-animate">
-    <h2>Registration</h2>
-    <form submit.delegate="register()">
-      <div class="form-group">
-        <label for="fn">First Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="fn"
-          placeholder="first name"
-          value.bind="registrationModel.firstName & validateOnChangeOrBlur"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="ln">Last Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="ln"
-          placeholder="last name"
-          value.bind="registrationModel.lastName & validateOnChangeOrBlur"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="ln">E-mail</label>
-        <input
-          type="text"
-          class="form-control"
-          id="ln"
-          placeholder="e-mail"
-          value.bind="registrationModel.email & validateOnChangeOrBlur"
-        />
-      </div>
-
-      <ul if.bind="controller.errors.length > 0">
-        <li repeat.for="error of controller.errors">
-          ${error.message}
-        </li>
-      </ul>
-
-      <button
-        type="submit"
-        class="btn btn-primary"
-        disabled.bind="isFormInvalid"
-      >
-        Submit
-      </button>
-    </form>
-  </section>
-</template>
+    <section class="au-animate">
+      <h2>Registration</h2>
+      <form>
+        <div class="form-group">
+          <label for="fn">First Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fn"
+            placeholder="First name"
+            value.bind="registrationModel.firstName & validateOnChangeOrBlur"
+          />
+        </div>
+  
+        <div class="form-group">
+          <label for="ln">Last Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="ln"
+            placeholder="Last name"
+            value.bind="registrationModel.lastName & validateOnChangeOrBlur"
+          />
+        </div>
+  
+        <div class="form-group">
+          <label for="ln">E-mail</label>
+          <input
+            type="text"
+            class="form-control"
+            id="ln"
+            placeholder="E-mail"
+            value.bind="registrationModel.email & validateOnChangeOrBlur"
+          />
+        </div>
+  
+        <ul if.bind="controller.errors.length > 0">
+          <li repeat.for="error of controller.errors">
+            ${error.message}
+          </li>
+        </ul>
+  
+        <button
+          click.trigger="pressedSubmitButton()"
+          class="btn btn-primary"
+        >
+          Submit
+        </button>
+      </form>
+    </section>
+  </template>

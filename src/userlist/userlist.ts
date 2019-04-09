@@ -1,3 +1,4 @@
+
 import { inject } from "aurelia-framework";
 import { HttpService } from "../services/httpservice";
 
@@ -20,8 +21,7 @@ export class Users {
         this.users = data.map((data)=>{
         return (data)
       })
-      
-      return this.users
+      return this.users.sort((currentUser, nextUser) => nextUser.id - currentUser.id)
     });
   }
 }
