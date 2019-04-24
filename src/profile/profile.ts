@@ -33,6 +33,11 @@ export class UserProfile {
   }
 
   public onEdit() {
+    this.editModel = {
+      firstName: this.user.firstName,
+      lastName: this.user.lastName,
+      email: this.user.email
+    }
     this.isEditing = true;
   }
 
