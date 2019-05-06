@@ -1,6 +1,7 @@
 import { Router } from "aurelia-router";
 import { Lazy, inject } from "aurelia-framework";
 import { HttpClient, json } from "aurelia-fetch-client";
+import { log } from '../services/logger';
 import {
   ValidationControllerFactory,
   ValidationController,
@@ -45,6 +46,8 @@ export class Login {
   }
 
   activate() {
+    log.info("cao ovde sam")
+    log.error("error")
     this.http = this.getHttpClient();
 
     this.http.configure(config => {
