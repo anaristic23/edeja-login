@@ -1,7 +1,6 @@
 import { Router } from "aurelia-router";
 import { inject } from "aurelia-framework";
 import { HttpService } from './../services/httpservice';
-
 import { log } from '../services/logger';
 import {
   ValidationControllerFactory,
@@ -54,9 +53,9 @@ export class Login {
 
   public onLogin() {
     this.http.setToken("security/connect/token", this.formModel)
-    // .then(() => {
-    //   this.router.navigateToRoute("userlist");
-    // })
+    .then(() => {
+      this.router.navigateToRoute("userlist");
+    })
   }
 
   pressedLoginButton() {

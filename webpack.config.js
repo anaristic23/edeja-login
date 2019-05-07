@@ -171,6 +171,7 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma } =
     })),
     ...when(production || server, new CopyWebpackPlugin([
       { from: 'static', to: outDir, ignore: ['.*'] }])), // ignore dot (hidden) files
+      // { from: 'src/locales/', to: 'locales/' },
     ...when(analyze, new BundleAnalyzerPlugin())
   ]
 });
