@@ -1,6 +1,5 @@
 import { Router } from "aurelia-router";
-import { Lazy, inject } from "aurelia-framework";
-// import { HttpClient } from "aurelia-fetch-client";
+import { inject } from "aurelia-framework";
 import { HttpService } from './../services/httpservice';
 
 import { log } from '../services/logger';
@@ -23,8 +22,8 @@ export class Login {
 
   public isLoginValid: boolean;
   public agree: false;
-  public controller: ValidationController;
   public http: HttpService;
+  public controller: ValidationController;
 
   constructor(
     http: HttpService,
@@ -50,33 +49,14 @@ export class Login {
   activate() {
     log.info("cao ovde sam")
     log.error("error")
+
   }
 
   public onLogin() {
-    this.http
-      .fetch("security/connect/token", {
-        method: "post",
-        body: this.formDataTransform(this.formModel),
-
-        headers: {
-          "Content-Type": " application/x-www-form-urlencoded"
-        }
-      })
-      .then(response => response.json())
-      .then(response => {response;
-        localStorage.setItem("token", response.access_token);
-        this.router.navigateToRoute("userlist");
-      });
-  }
-
-  formDataTransform(obj) {
-    var str: any = [];
-    for (var p in obj) {
-      if (obj.hasOwnProperty(p)) {
-        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-      }
-    }
-    return str.join("&");
+    this.http.setToken("security/connect/token", this.formModel)
+    // .then(() => {
+    //   this.router.navigateToRoute("userlist");
+    // })
   }
 
   pressedLoginButton() {
