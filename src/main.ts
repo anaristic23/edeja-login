@@ -3,7 +3,8 @@ import { Aurelia } from "aurelia-framework";
 import environment from "./environment";
 import { PLATFORM } from "aurelia-pal";
 import * as Bluebird from "bluebird";
-import {I18N, Backend, TCustomAttribute} from 'aurelia-i18n';
+import {I18N, TCustomAttribute} from 'aurelia-i18n';
+import Backend from 'i18next-xhr-backend';
  
 
 import "bootstrap/dist/css/bootstrap.css";
@@ -23,7 +24,7 @@ export function configure(aurelia: Aurelia) {
       TCustomAttribute.configureAliases(aliases);
 
       // register backend plugin
-      instance.i18next.use(Backend.with(aurelia.loader));
+      instance.i18next.use(Backend);
 
       // adapt options to your needs (see http://i18next.com/docs/options/)
       // make sure to return the promise of the setup method, in order to guarantee proper loading
@@ -34,8 +35,9 @@ export function configure(aurelia: Aurelia) {
         attributes: aliases,
         lng : 'en',
         fallbackLng : 'fr',
-        ns:['login'],
-        debug : false
+        ns:['translation'],
+        defaultNS: 'translation',
+        debug : true
       });
     });
 

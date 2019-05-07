@@ -170,8 +170,10 @@ module.exports = ({ production, server, extractCss, coverage, analyze, karma } =
       chunkFilename: production ? 'css/[name].[contenthash].chunk.css' : 'css/[name].[hash].chunk.css'
     })),
     ...when(production || server, new CopyWebpackPlugin([
-      { from: 'static', to: outDir, ignore: ['.*'] }])), // ignore dot (hidden) files
-      // { from: 'src/locales/', to: 'locales/' },
+      { from: 'static', to: outDir, ignore: ['.*'] },
+      //{ from: 'src/locales/', to: `${outDir}locales/` }
+    
+    ])), // ignore dot (hidden) files
     ...when(analyze, new BundleAnalyzerPlugin())
   ]
 });
