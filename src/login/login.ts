@@ -1,6 +1,8 @@
 import { Router } from "aurelia-router";
 import { Lazy, inject } from "aurelia-framework";
-import { HttpClient, json } from "aurelia-fetch-client";
+// import { HttpClient } from "aurelia-fetch-client";
+import { HttpService } from './../services/httpservice';
+
 import { log } from '../services/logger';
 import {
   ValidationControllerFactory,
@@ -8,7 +10,7 @@ import {
   ValidationRules
 } from "aurelia-validation";
 
-@inject(Lazy.of(HttpClient), ValidationControllerFactory, Router)
+@inject(HttpService, ValidationControllerFactory, Router)
 export class Login {
   public formModel: object = {
     grant_type: "password",
@@ -22,14 +24,14 @@ export class Login {
   public isLoginValid: boolean;
   public agree: false;
   public controller: ValidationController;
-  public http;
+  public http: HttpService;
 
   constructor(
-    private getHttpClient: () => HttpClient,
+    http: HttpService,
     controllerFactory: ValidationControllerFactory,
     private router: Router
   ) {
-    this.getHttpClient = getHttpClient;
+    this.http = http;
     this.controller = controllerFactory.createForCurrentScope();
 
     ValidationRules.ensure("email")
@@ -48,11 +50,6 @@ export class Login {
   activate() {
     log.info("cao ovde sam")
     log.error("error")
-    this.http = this.getHttpClient();
-
-    this.http.configure(config => {
-      config.useStandardConfiguration().withBaseUrl("http://10.5.10.69/");
-    });
   }
 
   public onLogin() {
@@ -67,7 +64,7 @@ export class Login {
       })
       .then(response => response.json())
       .then(response => {response;
-        localStorage.setItem("response", JSON.stringify(response));
+        localStorage.setItem("token", response.access_token);
         this.router.navigateToRoute("userlist");
       });
   }

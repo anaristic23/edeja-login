@@ -20,7 +20,7 @@ export class Register {
   public controller: ValidationController;
   public http: HttpService;
   public httpMock: HttpServiceMock
-  public isFormInvalid:boolean;
+  public isFormInvalid: boolean;
 
   constructor(controllerFactory: ValidationControllerFactory, http: HttpService, httpMock: HttpServiceMock, private router: Router) {
     this.http = http;
@@ -43,21 +43,21 @@ export class Register {
       .required()
       .on(this.registrationModel);
 
-      
-      this.controller.validate();
-    }
+
+    this.controller.validate();
+  }
 
   public register() {
-      this.http.create("primer/api/users", this.registrationModel)
+    this.http.create("primer/api/users", this.registrationModel)
       .then(data => {
         data;
         this.router.navigateToRoute("userlist")
       })
-      
+
   }
 
   pressedSubmitButton() {
-    this.controller.validate().then((result) => { 
+    this.controller.validate().then((result) => {
 
       if (result.valid) {
         this.register();
@@ -65,8 +65,8 @@ export class Register {
     })
   }
 
-  pressedMockButton(){
+  pressedMockButton() {
     this.httpMock.create("primer/api/users", this.registrationModel)
-    .then(data => console.log(data))
+      .then(data => console.log(data))
   }
 }

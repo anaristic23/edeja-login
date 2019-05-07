@@ -6,75 +6,56 @@ export class HttpService {
   http: HttpClient;
   access_token: string;
 
-  constructor(public getHttpClient: () => HttpClient, http) {
-    this.http = http;
+  constructor(public getHttpClient: () => HttpClient) {
     this.getHttpClient = getHttpClient;
     this.http = this.getHttpClient();
     this.http.configure(config => {
-      config.useStandardConfiguration().withBaseUrl("http://10.5.10.69/");
+      config
+      .useStandardConfiguration()
+      .withBaseUrl("http://10.5.10.69/")
+      .withInterceptor({
+        request(req){
+          const token = JSON.parse(localStorage.getItem("token"))
+
+          if (token){
+            req.headers.append("Authorization", `Bearer ${token}`)
+          }
+          return req;
+        },
+        response(res){
+          console.log(res);
+          return res;
+        }
+      });
     });
   }
 
   public get(url) {
-    var test = window.localStorage.getItem("response");
-    var testObject = JSON.parse(test);
-    var access_token = '';
-    if (testObject && testObject.access_token)
-      access_token = testObject.access_token;
     return this.http
-      .fetch(url, {
-        headers: new Headers({
-          Authorization: "Bearer " + access_token
-        })
-      })
+      .fetch(url)
       .then(response => response.json());
   }
 
   public getById(url, id) {
-    var test = window.localStorage.getItem("response");
-    var testObject = JSON.parse(test);
-    var access_token = '';
-    if (testObject && testObject.access_token)
-      access_token = testObject.access_token;
     return this.http
-      .fetch(url + "/" + id, {
-        headers: new Headers({
-          Authorization: "Bearer " + access_token
-        })
-      })
+      .fetch(url + "/" + id)
       .then(response => response.json());
   }
 
   public create(url, model) {
-    var test = window.localStorage.getItem("response");
-    var testObject = JSON.parse(test);
-    var access_token = '';
-    if (testObject && testObject.access_token)
-      access_token = testObject.access_token;
     return this.http
       .fetch(url, {
         method: "post",
-        body: json(model),
-        headers: new Headers({
-          Authorization: "Bearer " + access_token
-        })
+        body: json(model)
       })
       .then(response => response.json());
   }
 
   public update(url, model, id){
-    var test = window.localStorage.getItem("response");
-    var testObject = JSON.parse(test);
-    var access_token = '';
-    if (testObject && testObject.access_token)
-      access_token = testObject.access_token;
 
       return this.http.fetch(url + "/" + id, {
         method: "put",
-        body: json(model),
-        headers: new Headers({
-          Authorization: "Bearer " + access_token
-      })
+        body: json(model)
     })
     .then(response => response.json());
   }
