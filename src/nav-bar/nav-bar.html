@@ -1,4 +1,5 @@
 <template bindable="router">
+
   <nav class="navbar navbar-expand-md navbar-light fixed-top" style="background-color: rgb(126, 49, 78)"
     role="navigation">
     <div class="nav-wrapper container">
@@ -6,6 +7,7 @@
         <i class="fa fa-home"></i>
         <span>${router.title}</span>
       </a>
+
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -19,19 +21,17 @@
           <li>
             <select class="form-control" value.bind="selectedLanguage">
               <option value="">Choose...</option>
-              <option repeat.for="language of languages" value.bind="language">
-                ${language}
-              </option>
+              <option >${language} + ${myData}</option>
             </select>
           </li>
         </ul>
-
-        <p>${languages} gherty</p>
+        
         <ul class="nav navbar-nav navbar-right">
           <li class="loader" if.bind="router.isNavigating">
             <i class="fa fa-spinner fa-spin fa-2x"></i>
           </li>
         </ul>
+        
       </div>
     </div>
   </nav>
