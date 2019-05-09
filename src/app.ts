@@ -7,14 +7,12 @@ import {I18N} from 'aurelia-i18n';
 export class App {
   router: Router;
 
-  private _i18n: I18N;
+  private i18n: I18N;
 
   constructor(i18n: I18N)
   {
-    this._i18n = i18n;
-    // this._i18n.setLocale('fr');
-    // console.log(this._i18n.getLocale());
-    console.log(`Translation for login is: ${this._i18n.tr('login')}`);
+    this.i18n = i18n;
+    this.i18n.setLocale('en')
   }
 
   configureRouter(config: RouterConfiguration, router: Router) {

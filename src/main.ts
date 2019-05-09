@@ -35,9 +35,9 @@ export function configure(aurelia: Aurelia) {
         attributes: aliases,
         lng : 'en',
         fallbackLng : 'fr',
-        ns:['translation'],
-        defaultNS: 'translation',
-        debug : true
+        ns:['login', 'navigation'],
+        defaultNS: 'login',
+        debug : false
       });
     });
 

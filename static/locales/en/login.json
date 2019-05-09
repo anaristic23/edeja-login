@@ -1,0 +1,10 @@
+{
+  "title": "Login",
+  "email" : "E-mail address",
+  "placeholder-email": "Enter e-mail",
+  "placeholder-under": "We'll never share your e-mail with anyone else.",
+  "password": "Password",
+  "placeholder-password": "Enter password",
+  "checkbox": "Check me out",
+  "button": "Login"
+}

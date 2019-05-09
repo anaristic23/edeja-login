@@ -1,0 +1,10 @@
+{
+  "title": "S'inscrire",
+  "email" : "E-mail adresse",
+  "placeholder-email": "Écrivez votre e-mail",
+  "placeholder-under": "Nous ne partagerons jamais votre email avec qui que ce soit.",
+  "password": "Mot de passe",
+  "placeholder-password": "Écrivez votre mot de passe",
+  "checkbox": "Vérifie moi",
+  "button": "S'identifier"
+}
