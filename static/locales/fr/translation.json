@@ -1,0 +1,29 @@
+{
+  "login": {
+    "title": "Connexion",
+    "placeholder-under": "Nous ne partagerons jamais votre email avec qui que ce soit.",
+    "password": "Mot de passe",
+    "placeholder-password": "Écrivez votre mot de passe",
+    "checkbox": "Vérifie moi",
+    "button": "S'identifier"
+  },
+  "navigation": {
+    "Register": "Inscription",
+    "Login": "Connexion"
+  },
+  "register": {
+    "title": "Inscription",
+    "placeholder-first-name": "Prénom",
+    "placeholder-last-name": "Nom de famille",
+    "submit": "Inscription"
+  },
+  "firstName": "Prénom",
+  "lastName": "Nom de famille",
+  "email": "E-mail adresse",
+  "placeholder-email": "Écrivez votre e-mail",
+  "errorMessages": {
+    "required": "${$displayName} est obligatoire",
+    "default": "il est obligatoire de se vérifie"
+
+  }
+}

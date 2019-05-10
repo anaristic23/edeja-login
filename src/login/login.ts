@@ -2,13 +2,14 @@ import { Router } from "aurelia-router";
 import { inject } from "aurelia-framework";
 import { HttpService } from './../services/httpservice';
 import { log } from '../services/logger';
+import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import {
   ValidationControllerFactory,
   ValidationController,
   ValidationRules
 } from "aurelia-validation";
 
-@inject(HttpService, ValidationControllerFactory, Router)
+@inject(HttpService, ValidationControllerFactory, Router, EventAggregator)
 export class Login {
   public formModel: object = {
     grant_type: "password",
@@ -23,16 +24,16 @@ export class Login {
   public agree: false;
   public http: HttpService;
   public controller: ValidationController;
+  subscription;
 
-  constructor(
-    http: HttpService,
-    controllerFactory: ValidationControllerFactory,
-    private router: Router
-  ) {
+  constructor(http: HttpService, controllerFactory: ValidationControllerFactory,
+    private router: Router, eventAggregator) {
     this.http = http;
     this.controller = controllerFactory.createForCurrentScope();
+    this.subscription = eventAggregator.subscribe('changed_language', () => { this.controller.reset() })
 
-    ValidationRules.ensure("email")
+    ValidationRules
+      .ensure("email")
       .required()
       .email()
       .ensure("password")
@@ -53,9 +54,9 @@ export class Login {
 
   public onLogin() {
     this.http.setToken("security/connect/token", this.formModel)
-    .then(() => {
-      this.router.navigateToRoute("userlist");
-    })
+      .then(() => {
+        this.router.navigateToRoute("userlist");
+      })
   }
 
   pressedLoginButton() {
@@ -64,5 +65,11 @@ export class Login {
         this.onLogin();
       }
     });
+  }
+
+  detach() {
+    if (this.subscription) {
+      this.subscription.dispose();
+    }
   }
 }

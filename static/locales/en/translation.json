@@ -1,0 +1,28 @@
+{
+  "login": {
+    "title": "Login",
+    "placeholder-under": "We'll never share your e-mail with anyone else.",
+    "password": "Password",
+    "placeholder-password": "Enter password",
+    "checkbox": "Check me out",
+    "button": "Login"
+  },
+  "navigation": {
+    "Register": "Register",
+    "Login": "Login"
+  },
+  "register": {
+    "title": "Registration",
+    "placeholder-first-name": "First name",
+    "placeholder-last-name": "Last name",
+    "submit": "Submit"
+  },
+  "firstName": "First name",
+  "lastName": "Last name",
+  "email": "E-mail address",
+  "placeholder-email": "Enter e-mail",
+  "errorMessages": {
+    "required": "${$displayName} field is required",
+    "default": "check field is mandatory"
+  }
+}

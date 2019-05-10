@@ -2,6 +2,7 @@ import { HttpService } from './../services/httpservice';
 import { inject } from "aurelia-framework";
 import { Router } from "aurelia-router";
 import { HttpServiceMock } from "../services/httpServiceMock";
+import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import {
   ValidationControllerFactory,
   ValidationController,
@@ -9,7 +10,7 @@ import {
   validationMessages
 } from "aurelia-validation";
 
-@inject(ValidationControllerFactory, HttpService, HttpServiceMock, Router)
+@inject(ValidationControllerFactory, HttpService, HttpServiceMock, Router, EventAggregator)
 export class Register {
   public registrationModel = {
     firstName: "",
@@ -21,24 +22,24 @@ export class Register {
   public http: HttpService;
   public httpMock: HttpServiceMock
   public isFormInvalid: boolean;
+  eventAggregator;
+  subscription;
 
-  constructor(controllerFactory: ValidationControllerFactory, http: HttpService, httpMock: HttpServiceMock, private router: Router) {
+  constructor(controllerFactory: ValidationControllerFactory, http: HttpService, httpMock: HttpServiceMock, private router: Router, eventAggregator) {
     this.http = http;
     this.httpMock = httpMock
     this.controller = controllerFactory.createForCurrentScope();
+    this.subscription = eventAggregator.subscribe('changed_language', () => { this.controller.reset() })
 
-    validationMessages["required"] = `You must enter your \${$displayName}`;
+
 
     ValidationRules.ensure("firstName")
-      .displayName("First Name")
       .required()
 
       .ensure("lastName")
-      .displayName("Last Name")
       .required()
 
       .ensure("email")
-      .displayName("Email")
       .email()
       .required()
       .on(this.registrationModel);
@@ -68,5 +69,12 @@ export class Register {
   pressedMockButton() {
     this.httpMock.create("primer/api/users", this.registrationModel)
       .then(data => console.log(data))
+  }
+
+  detach() {
+    if (this.subscription) {
+      this.subscription.dispose();
+    }
+
   }
 }

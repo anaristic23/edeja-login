@@ -1,24 +1,41 @@
-import { Aurelia, inject } from "aurelia-framework";
+import { Aurelia, inject, observable } from "aurelia-framework";
 import { Router, RouterConfiguration } from "aurelia-router";
 import { PLATFORM } from "aurelia-pal";
-import {I18N} from 'aurelia-i18n';
+import { I18N } from 'aurelia-i18n';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
-@inject(I18N)
+
+@inject(I18N, EventAggregator)
 export class App {
   router: Router;
 
   private i18n: I18N;
+  private eventAggregator;
 
-  constructor(i18n: I18N)
-  {
+  public languages = ["English", "French"];
+  @observable selectedLanguage;
+
+  constructor(i18n: I18N, eventAggregator) {
     this.i18n = i18n;
-    this.i18n.setLocale('en')
+    this.eventAggregator = eventAggregator;
+
+  }
+
+  selectedLanguageChanged(newValue, prevValue) {
+    if (newValue == "French") {
+      this.i18n.setLocale('fr');
+    } else if (newValue == "English") {
+      this.i18n.setLocale('en');
+    }
+    if (prevValue && newValue && prevValue != newValue) {
+      this.eventAggregator.publish('changed_language')
+    }
   }
 
   configureRouter(config: RouterConfiguration, router: Router) {
     config.title = "Edeja";
     config.options.pushState = true;
-    
+
     config.map([
       {
         route: ["", "welcome"],

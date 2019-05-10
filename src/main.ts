@@ -3,9 +3,10 @@ import { Aurelia } from "aurelia-framework";
 import environment from "./environment";
 import { PLATFORM } from "aurelia-pal";
 import * as Bluebird from "bluebird";
-import {I18N, TCustomAttribute} from 'aurelia-i18n';
+import {ValidationMessageProvider} from 'aurelia-validation';
+import { I18N, TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
- 
+
 
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
@@ -33,11 +34,11 @@ export function configure(aurelia: Aurelia) {
           loadPath: './locales/{{lng}}/{{ns}}.json', // <-- XHR settings for where to get the files from
         },
         attributes: aliases,
-        lng : 'en',
-        fallbackLng : 'fr',
-        ns:['login', 'navigation'],
-        defaultNS: 'login',
-        debug : false
+        lng: 'en',
+        fallbackLng: 'fr',
+        ns: ['translation'],
+        defaultNS: 'translation',
+        debug: false
       });
     });
 
@@ -55,6 +56,19 @@ export function configure(aurelia: Aurelia) {
   if (environment.testing) {
     aurelia.use.plugin(PLATFORM.moduleName("aurelia-testing"));
   }
+  const i18n = aurelia.container.get(I18N);
 
   aurelia.start().then(() => aurelia.setRoot(PLATFORM.moduleName("app")));
+
+  ValidationMessageProvider.prototype.getMessage = function (key) {
+    const translation = i18n.tr(`errorMessages.${key}`);
+    return this.parser.parse(translation);
+  };
+
+  ValidationMessageProvider.prototype.getDisplayName = function (propertyName, displayName) {
+    if (displayName !== null && displayName !== undefined) {
+      return displayName;
+    }
+    return i18n.tr(propertyName);
+  };
 }
