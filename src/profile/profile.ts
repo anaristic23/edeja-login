@@ -1,8 +1,10 @@
 import { HttpService } from './../services/httpservice';
 import { inject } from "aurelia-framework";
+import { Router } from "aurelia-router";
 
 
-@inject(HttpService)
+
+@inject(HttpService, Router)
 
 export class UserProfile {
   public http: HttpService;
@@ -15,9 +17,10 @@ export class UserProfile {
   user;
   id: string;
 
-  constructor(http: HttpService) {
+  constructor(http: HttpService, private router: Router) {
     this.http = http;
- }
+
+  }
 
   activate(params) {
     this.id = params.id;
@@ -52,6 +55,13 @@ export class UserProfile {
         this.getProfile();
         this.cancel();
       }
+    })
+  }
+
+  public removeProfile() {
+    this.http.delete('primer/api/users', this.id)
+    .then(() => {
+      this.router.navigateToRoute("userlist");
     })
   }
 

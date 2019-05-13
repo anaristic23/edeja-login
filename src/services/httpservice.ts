@@ -16,14 +16,15 @@ export class HttpService {
       .withInterceptor({
         request(req){
           const token = JSON.parse(localStorage.getItem("token"))
-
-          if (token){
-            req.headers.append("Authorization", `Bearer ${token.access_token}`)
+          
+          if (req.url.indexOf('security/connect/token') == -1) {
+            if (token){
+              req.headers.append("Authorization", `Bearer ${token.access_token}`)
+            }
           }
           return req;
         },
         response(res){
-          console.log(res);
           return res;
         }
       });
@@ -67,7 +68,7 @@ export class HttpService {
       .fetch(url + "/" + id, {
         method: "delete"
       })
-      .then(response => response.json());
+      .then(response => response);
   }
   public setToken(url, model){
     return this.http
