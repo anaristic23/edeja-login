@@ -6,24 +6,24 @@ import { HttpService } from "../services/httpservice";
 export class Users {
   public http: HttpService;
   users: Array<any> = [];
-  // styleObjectButton
+  styleObjectButton
 
 
   constructor(http: HttpService) {
     this.http = http;
-    // this.styleObjectButton = {
-    //   "position": "fixed",
-    //   "width": "80px",
-    //   "height": "60px",
-    //   "bottom": "40px",
-    //   "right": "40px",
-    //   "background-color": "#06C",
-    //   "color": "#FFF",
-    //   "border-radius": "50px",
-    //   "text-align": "center",
-    //   "box-shadow": "2px 2px 3px #999",
+    this.styleObjectButton = {
+      "position": "fixed",
+      "width": "80px",
+      "height": "60px",
+      "bottom": "40px",
+      "right": "40px",
+      "background-color": "#06C",
+      "color": "#FFF",
+      "border-radius": "50px",
+      "text-align": "center",
+      "box-shadow": "2px 2px 3px #999",
 
-    // }
+    }
   }
 
   attached() {
