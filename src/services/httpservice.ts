@@ -76,7 +76,7 @@ export class HttpService {
       body: this.formDataTransform(model),
 
       headers: {
-        "Content-Type": " application/x-www-form-urlencoded"
+        "Content-Type": " application/x-www-form-urlencoded",
       }
     })
     .then(response => response.json())
