@@ -1,8 +1,26 @@
 import { HttpClient, json } from "aurelia-fetch-client";
 import { Lazy, inject } from "aurelia-framework";
 
+import { log } from './logger';
+
+
+
+export interface IHttpService {
+  print();
+  setToken(url, model);
+  get(url);
+  getById(url, id);
+  create(url, model);
+  update(url, model, id);
+  delete(url, id);
+  formDataTransform(obj)
+}
+
+export const IHttpService = Symbol();
+
+
 @inject(Lazy.of(HttpClient))
-export class HttpService {
+export class HttpService implements IHttpService{
   http: HttpClient;
   access_token: string;
 
@@ -94,5 +112,9 @@ export class HttpService {
       }
     }
     return str.join("&");
+  }
+
+  public print(){
+    log.info("this is http service")
   }
 }

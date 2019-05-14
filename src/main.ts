@@ -1,15 +1,15 @@
 /// <reference types="aurelia-loader-webpack/src/webpack-hot-interface"/>
-import { Aurelia } from "aurelia-framework";
+import { Aurelia, Container, inject } from "aurelia-framework";
 import environment from "./environment";
 import { PLATFORM } from "aurelia-pal";
 import * as Bluebird from "bluebird";
 import {ValidationMessageProvider} from 'aurelia-validation';
 import { I18N, TCustomAttribute } from 'aurelia-i18n';
 import Backend from 'i18next-xhr-backend';
-
-
+import { IHttpService } from './services/httpservice';
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.css";
+import { HttpServiceMock } from './services/httpServiceMock';
 
 // remove out if you don't want a Promise polyfill (remove also from webpack.config.js)
 Bluebird.config({ warnings: { wForgottenReturn: false } });
@@ -26,7 +26,7 @@ export function configure(aurelia: Aurelia) {
 
       // register backend plugin
       instance.i18next.use(Backend);
-
+      
       // adapt options to your needs (see http://i18next.com/docs/options/)
       // make sure to return the promise of the setup method, in order to guarantee proper loading
       return instance.setup({
@@ -41,10 +41,11 @@ export function configure(aurelia: Aurelia) {
         debug: false
       });
     });
-
-  // Uncomment the line below to enable animation.
-  // aurelia.use.plugin(PLATFORM.moduleName('aurelia-animator-css'));
-  // if the css animator is enabled, add swap-order="after" to all router-view elements
+    aurelia.container.registerTransient(IHttpService, HttpServiceMock);
+    
+    // Uncomment the line below to enable animation.
+    // aurelia.use.plugin(PLATFORM.moduleName('aurelia-animator-css'));
+    // if the css animator is enabled, add swap-order="after" to all router-view elements
 
   // Anyone wanting to use HTMLImports to load views, will need to install the following plugin.
   // aurelia.use.plugin(PLATFORM.moduleName('aurelia-html-import-template-loader'));
@@ -57,6 +58,7 @@ export function configure(aurelia: Aurelia) {
     aurelia.use.plugin(PLATFORM.moduleName("aurelia-testing"));
   }
   const i18n = aurelia.container.get(I18N);
+
 
   aurelia.start().then(() => aurelia.setRoot(PLATFORM.moduleName("app")));
 

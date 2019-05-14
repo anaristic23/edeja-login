@@ -67,8 +67,8 @@ export class Register {
   }
 
   pressedMockButton() {
-    this.httpMock.create("primer/api/users", this.registrationModel)
-      .then(data => console.log(data))
+    // this.httpMock.create("primer/api/users", this.registrationModel)
+    //   .then(data => console.log(data))
   }
 
   detach() {

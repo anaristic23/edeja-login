@@ -1,6 +1,6 @@
 import { Router } from "aurelia-router";
 import { inject } from "aurelia-framework";
-import { HttpService } from './../services/httpservice';
+import { IHttpService } from './../services/httpservice';
 import { log } from '../services/logger';
 import { EventAggregator, Subscription } from 'aurelia-event-aggregator';
 import {
@@ -9,7 +9,7 @@ import {
   ValidationRules
 } from "aurelia-validation";
 
-@inject(HttpService, ValidationControllerFactory, Router, EventAggregator)
+@inject(IHttpService, ValidationControllerFactory, Router, EventAggregator)
 export class Login {
   public formModel: object = {
     grant_type: "password",
@@ -22,11 +22,11 @@ export class Login {
 
   public isLoginValid: boolean;
   public agree: false;
-  public http: HttpService;
+  public http: IHttpService;
   public controller: ValidationController;
   subscription;
 
-  constructor(http: HttpService, controllerFactory: ValidationControllerFactory,
+  constructor(http: IHttpService, controllerFactory: ValidationControllerFactory,
     private router: Router, eventAggregator) {
     this.http = http;
     this.controller = controllerFactory.createForCurrentScope();

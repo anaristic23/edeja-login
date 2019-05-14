@@ -40,8 +40,4 @@ export class Users {
       });
   }
 
-  // public logout() {
-  //   this.http.setToken("primer/api/users", this.users)
-  //   .then(() => localStorage.removeItem("token"))
-  // }
 }
