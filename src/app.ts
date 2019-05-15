@@ -40,6 +40,7 @@ export class App {
     config.options.pushState = true;
     config.addAuthorizeStep(AuthorizeStep);
 
+
     config.map([
       {
         route: ["", "welcome"],
@@ -66,7 +67,7 @@ export class App {
         route: ["userlist"],
         name: "userlist",
         moduleId: PLATFORM.moduleName("./userlist/userlist"),
-        settings: { auth: true } ,
+        settings: { auths: true } ,
         nav: false,
         title: "User List"
       },
@@ -74,7 +75,7 @@ export class App {
         route: ["profile/:id"],
         name: "profile",
         moduleId: PLATFORM.moduleName("./profile/profile"),
-        settings: { auth: true } ,
+        settings: { auths: true } ,
         nav: false,
         title: "Profile Page"
       }
@@ -87,18 +88,18 @@ export class App {
 
 
 class AuthorizeStep {
-  run(navigationInstruction, next){
-    console.log(navigationInstruction);
-    console.log(next)
-    if(navigationInstruction.getAllInstructions().some(i =>i.config.settings.auth)){
+  run(navigationInstructions, nexts){
+
+    console.log(navigationInstructions)
+    console.log(nexts)
+    if(navigationInstructions.getAllInstructions().some(i =>i.config.settings.auths)){
+
       var isLoggedIn: boolean;
       localStorage.getItem("token")
       if(!isLoggedIn){
-        console.log(next())
-        return next.cancel(new Redirect('/login'))
+        return nexts.cancel(new Redirect('/login'))
       }
     }
-    console.log(next())
-    return next()
+    return nexts()
   }
 }
